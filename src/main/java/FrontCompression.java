@@ -40,12 +40,17 @@ public class FrontCompression {
         } else if (corpus.length() == 0) {
             return "";
         }
-
-        /*
-         * Complete this function.
-         */
-
-        return "";
+        String[] words = corpus.split("\n");
+        String result = "";
+        for (int i = 0; i < words.length; i++) {
+            if (i == 0) {
+                result += 0 + " " + words[i] + "\n";
+            } else {
+                int sharedPrefix = longestPrefix(words[i], words[i - 1]);
+                result += sharedPrefix + " " + words[i].substring(sharedPrefix) + "\n";
+            }
+        }
+        return result;
     }
 
     /**
@@ -63,12 +68,25 @@ public class FrontCompression {
         } else if (corpus.length() == 0) {
             return "";
         }
-
-        /*
-         * Complete this function.
-         */
-
-        return "";
+        String[] moreWords = corpus.split("\n");
+        String[][] evenMoreWords = new String[moreWords.length][2];
+        String[] resultArray = new String[moreWords.length];
+        String result = "";
+        for (int i = 0; i < evenMoreWords.length; i++) {
+            evenMoreWords[i] = moreWords[i].split(" ");
+        }
+        for (int i = 0; i < resultArray.length; i++) {
+            if (i == 0) {
+                resultArray[i] = evenMoreWords[i][1];
+            } else if (i != 0) {
+                int prefixSize = Integer.parseInt(evenMoreWords[i][0]);
+                resultArray[i] = resultArray[i - 1].substring(0, prefixSize) + evenMoreWords[i][1];
+            }
+        }
+        for (int i = 0; i < resultArray.length; i++) {
+            result += resultArray[i] + "\n";
+        }
+        return result;
     }
 
     /**
@@ -79,10 +97,15 @@ public class FrontCompression {
      * @return the length of the common prefix between the two strings
      */
     private static int longestPrefix(final String firstString, final String secondString) {
-        /*
-         * Complete this function.
-         */
-        return 0;
+        int size = 0;
+        for (int i = 0; i < Math.min(firstString.length(), secondString.length()); i++) {
+            if (firstString.charAt(i) == secondString.charAt(i)) {
+                size++;
+            } else {
+                break;
+            }
+        }
+        return size;
     }
 
     /**
